@@ -13,16 +13,28 @@ import { useRouter } from 'src/routes/hooks';
 
 import { Iconify } from 'src/components/iconify';
 
+import axios from "axios";
+
 // ----------------------------------------------------------------------
 
 export function SignInView() {
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("admin@embiess83.com.br");
+  const [password, setPassword] = useState("admin");
 
-  const handleSignIn = useCallback(() => {
+  const handleSignIn = useCallback(async() => {
+    const response = await axios.post(
+      "https://jellyfish-app-p4kp5.ondigitalocean.app/v1/login",
+      {
+        email,
+        password 
+      }
+    );
+    console.log(response);
     router.push('/');
-  }, [router]);
+  }, [router, email, password]);
 
   const renderForm = (
     <Box display="flex" flexDirection="column" alignItems="flex-end">
@@ -30,7 +42,10 @@ export function SignInView() {
         fullWidth
         name="email"
         label="Email address"
-        defaultValue="hello@gmail.com"
+        value = {email}
+        onChange = {(e) => {
+          setEmail(e.target.value);
+       }}
         InputLabelProps={{ shrink: true }}
         sx={{ mb: 3 }}
       />
@@ -43,7 +58,10 @@ export function SignInView() {
         fullWidth
         name="password"
         label="Password"
-        defaultValue="@demo1234"
+        value = {password}
+        onChange = {(e) => {
+          setPassword(e.target.value);
+       }}
         InputLabelProps={{ shrink: true }}
         type={showPassword ? 'text' : 'password'}
         InputProps={{

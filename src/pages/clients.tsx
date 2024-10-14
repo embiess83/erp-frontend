@@ -15,16 +15,31 @@ import { DashboardContent } from 'src/layouts/dashboard';
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
 
-import { TableNoData } from '../../../components/table/table-no-data';
+import { TableNoData } from '../components/table/table-no-data';
 import { UserTableRow } from '../user-table-row';
 import { UserTableHead } from '../user-table-head';
-import { TableEmptyRows } from '../../../components/table/table-empty-rows';
-import { TableToolbar } from '../../../components/table/table-toolbar';
-import { emptyRows, applyFilter, getComparator } from '../../../components/table/utils';
+import { TableEmptyRows } from '../components/table/table-empty-rows';
+import { TableToolbar } from '../components/table/table-toolbar';
 
 import type { UserProps } from '../user-table-row';
 
+import { Helmet } from 'react-helmet-async';
+
+import { CONFIG } from 'src/config-global';
+
 // ----------------------------------------------------------------------
+
+export default function Page() {
+  return (
+    <>
+      <Helmet>
+        <title> {`Clients - ${CONFIG.appName}`}</title>
+      </Helmet>
+
+      <UserView />
+    </>
+  );
+}
 
 export function UserView() {
   const table = useTable();
