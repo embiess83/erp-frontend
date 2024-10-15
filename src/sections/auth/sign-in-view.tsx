@@ -32,8 +32,11 @@ export function SignInView() {
         password 
       }
     );
-    console.log(response);
-    router.push('/');
+    console.log(response.status);
+    if(response.status == 200) {
+      localStorage.setItem("token", response.data.token);
+      router.push('/');
+    }
   }, [router, email, password]);
 
   const renderForm = (

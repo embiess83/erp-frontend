@@ -1,8 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
-import { ClientForm } from 'src/sections/client/form';
-import { ClientList } from 'src/sections/client/list/client-list';
+import { ProductForm } from 'src/sections/product/form';
 
 // ----------------------------------------------------------------------
 
@@ -10,10 +9,10 @@ export default function Page() {
   return (
     <>
       <Helmet>
-        <title> {`Clients - ${CONFIG.appName}`}</title>
+        <title> {`Products - ${CONFIG.appName}`}</title>
       </Helmet>
 
-      <ClientList />
+      <ProductForm />
     </>
   );
 }

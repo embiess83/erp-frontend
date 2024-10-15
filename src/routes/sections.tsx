@@ -14,8 +14,10 @@ export const HomePage = lazy(() => import('src/pages/home'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
 export const UserPage = lazy(() => import('src/pages/users'));
 export const ClientPage = lazy(() => import('src/pages/clients'));
+export const ClientNewPage = lazy(() => import('src/pages/clients-new'));
 export const SignInPage = lazy(() => import('src/pages/sign-in'));
-export const ProductsPage = lazy(() => import('src/pages/products'));
+export const ProductPage = lazy(() => import('src/pages/products'));
+export const ProductNewPage = lazy(() => import('src/pages/products-new'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 
 // ----------------------------------------------------------------------
@@ -47,7 +49,9 @@ export function Router() {
         { element: <HomePage />, index: true },
         { path: 'users', element: <UserPage /> },
         { path: 'clients', element: <ClientPage /> },
-        { path: 'products', element: <UserPage /> },
+        { path: 'clients/new', element: <ClientNewPage /> },
+        { path: 'products', element: <ProductPage /> },
+        { path: 'products/new', element: <ProductNewPage /> },
         { path: 'orders', element: <UserPage /> },
       ],
     },

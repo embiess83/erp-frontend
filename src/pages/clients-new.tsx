@@ -2,7 +2,6 @@ import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
 import { ClientForm } from 'src/sections/client/form';
-import { ClientList } from 'src/sections/client/list/client-list';
 
 // ----------------------------------------------------------------------
 
@@ -13,7 +12,7 @@ export default function Page() {
         <title> {`Clients - ${CONFIG.appName}`}</title>
       </Helmet>
 
-      <ClientList />
+      <ClientForm />
     </>
   );
 }
