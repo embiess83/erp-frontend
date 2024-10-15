@@ -1,8 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
-
-import { UserView } from 'src/sections/user/view';
+import { OrderList } from 'src/sections/order/list/order-list';
 
 // ----------------------------------------------------------------------
 
@@ -13,7 +12,7 @@ export default function Page() {
         <title> {`Orders - ${CONFIG.appName}`}</title>
       </Helmet>
 
-      <UserView />
+      <OrderList />
     </>
   );
 }

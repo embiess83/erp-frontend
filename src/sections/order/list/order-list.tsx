@@ -15,19 +15,19 @@ import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
 
 import { TableNoData } from '../../../components/table/table-no-data';
-import { UserTableRow } from './client-table-row';
-import { UserTableHead } from './client-table-head';
+import { UserTableRow } from './product-table-row';
+import { UserTableHead } from './product-table-head';
 import { TableEmptyRows } from '../../../components/table/table-empty-rows';
 import { TableToolbar } from '../../../components/table/table-toolbar';
 import { emptyRows, getComparator } from '../../../components/table/utils';
 
-import type { ClientProps } from './client-table-row';
-import useClientApi from 'src/api/clientApi';
+import type { ProductProps } from './product-table-row';
+import axios from 'axios';
 
 // ----------------------------------------------------------------------
 
 type ApplyFilterProps = {
-  inputData: ClientProps[];
+  inputData: ProductProps[];
   filterName: string;
   comparator: (a: any, b: any) => number;
 };
@@ -54,21 +54,35 @@ export function applyFilter({ inputData, comparator, filterName }: ApplyFilterPr
 
 // ----------------------------------------------------------------------
 
-export function ClientList() {
+export function OrderList() {
   const table = useTable();
-  const [content, setContents] = useState(new Array<ClientProps>());
+  const [content, setContents] = useState(new Array<ProductProps>());
 
 
   useEffect(() => {
-    useClientApi().getClientApi().then((res:any) => {
-      //console.log(res);
-      setContents(res);
+    const auth = 'Bearer ' + localStorage.getItem("token");
+    const config = {
+      headers: {
+        Authorization: auth
+      }
+    };
+    axios.get("https://jellyfish-app-p4kp5.ondigitalocean.app/v1/orders", config).then((res) => {
+      setContents(res.data.map((order: any)=> {
+        return {
+          "id": order.id,
+          "createdAt": order.createdAt,
+          "client": order.client.name,
+          "product": order.items[0]?.product.name,
+          "total": order.total,
+          "status": order.status
+        };
+      }));
     });
   }, []);
 
   const [filterName, setFilterName] = useState('');
 
-  const dataFiltered: ClientProps[] = applyFilter({
+  const dataFiltered: ProductProps[] = applyFilter({
     inputData: content,
     comparator: getComparator(table.order, table.orderBy),
     filterName,
@@ -80,15 +94,15 @@ export function ClientList() {
     <DashboardContent>
       <Box display="flex" alignItems="center" mb={5}>
         <Typography variant="h4" flexGrow={1}>
-          Clients
+          Orders
         </Typography>
         <Button
           variant="contained"
           color="inherit"
-          href='/clients/new'
+          href='/orders/new'
           startIcon={<Iconify icon="mingcute:add-line" />}
         >
-          New client
+          New order
         </Button>
       </Box>
 
@@ -118,9 +132,10 @@ export function ClientList() {
                   )
                 }
                 headLabel={[
-                  { id: 'name', label: 'Name' },
-                  { id: 'registerNumber', label: 'Register Number' },
-                  { id: 'isVerified', label: 'Verified', align: 'center' },
+                  { id: 'createdAt', label: 'Data' },
+                  { id: 'client', label: 'Client' },
+                  { id: 'product', label: 'Product' },
+                  { id: 'total', label: 'Total' },
                   { id: 'status', label: 'Status' },
                   { id: '' },
                 ]}
